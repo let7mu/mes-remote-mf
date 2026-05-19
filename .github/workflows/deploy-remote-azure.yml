@@ -43,7 +43,7 @@ jobs:
           action: upload
           # Build from repo root with an explicit project command to avoid
           # ambiguous `ng build` in this multi-project workspace.
-          app_location: "/"
+          app_location: "."
           app_build_command: "npm run build:remote-azure"
           output_location: "dist/remote-azure/browser"
           config_file_location: "projects/remote-azure"
