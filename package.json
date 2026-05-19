@@ -4,8 +4,8 @@
   "scripts": {
     "ng": "ng",
     "start": "ng serve host-shell",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
+    "build": "npm run build:host && npm run build:remote-azure && npm run build:local-micro",
+    "watch": "ng build host-shell --watch --configuration development",
     "test": "ng test",
     "start:host": "ng serve host-shell",
     "start:remote-azure": "ng serve remote-azure",
