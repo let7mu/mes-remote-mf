@@ -1,4 +1,4 @@
 {
-  "remoteAzure": "https://proud-pond-0d9fad603.7.azurestaticapps.net/remote.entry.json",
+  "remoteAzure": "https://proud-pond-0d9fad603.7.azurestaticapps.net/remoteEntry.json",
   "localMicro": "http://localhost:4202/remoteEntry.json"
 }
