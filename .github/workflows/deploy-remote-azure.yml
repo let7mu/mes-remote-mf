@@ -35,23 +35,18 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Build remote-azure
-        run: npm run build:remote-azure
-
-      # Copy SWA routing config (SPA fallback + CORS) into build output
-      - name: Add staticwebapp.config.json
-        run: cp projects/remote-azure/staticwebapp.config.json dist/remote-azure/browser/
-
       - name: Deploy to Azure Static Web Apps
         uses: Azure/static-web-apps-deploy@v1
         with:
           azure_static_web_apps_api_token: ${{ secrets.AZURE_STATIC_WEB_APPS_API_TOKEN }}
           repo_token: ${{ secrets.GITHUB_TOKEN }}
           action: upload
-          # Point directly at the pre-built folder; skip internal build
-          app_location: dist/remote-azure/browser
-          skip_app_build: true
-          output_location: ""
+          # Build from repo root with an explicit project command to avoid
+          # ambiguous `ng build` in this multi-project workspace.
+          app_location: "/"
+          app_build_command: "npm run build:remote-azure"
+          output_location: "dist/remote-azure/browser"
+          config_file_location: "projects/remote-azure"
 
   # ── Clean up staging environment when PR is closed ────────────────────────
   close-staging:
