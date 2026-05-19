@@ -7,7 +7,15 @@ This workspace contains three Angular 17 applications configured with
 - `remote-azure` (remote micro app, deployable to Azure, also runs standalone)
 - `local-micro` (remote micro app running locally)
 
-## App URLs (local)
+## App URLs
+
+### Live Deployments
+
+- **Host shell**: https://quiet-syrniki-d5db4b.netlify.app
+- **Remote micro (Azure)**: https://proud-pond-0d9fad603.7.azurestaticapps.net/
+- **Local micro (Netlify)**: https://stunning-stardust-1ea014.netlify.app/
+
+### Local Development
 
 - Host shell: `http://localhost:4200`
 - Remote Azure app (standalone): `http://localhost:4201`
@@ -55,14 +63,15 @@ Host manifest file:
 
 - `projects/host-shell/src/assets/federation.manifest.json`
 
-Current local mappings:
+Current production mappings:
+
+- `remoteAzure` -> `https://proud-pond-0d9fad603.7.azurestaticapps.net/remoteEntry.json`
+- `localMicro` -> `http://localhost:4202/remoteEntry.json` (local dev) / `https://stunning-stardust-1ea014.netlify.app/remoteEntry.json` (production)
+
+For local development:
 
 - `remoteAzure` -> `http://localhost:4201/remoteEntry.json`
 - `localMicro` -> `http://localhost:4202/remoteEntry.json`
-
-Host routes loading remotes:
-
-- `projects/host-shell/src/app/app.routes.ts`
 
 ## Deploy `remote-azure` to Azure Static Web Apps
 
