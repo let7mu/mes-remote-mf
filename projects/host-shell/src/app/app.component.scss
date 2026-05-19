@@ -1,0 +1,52 @@
+:host {
+  display: block;
+  min-height: 100vh;
+  font-family: Arial, sans-serif;
+  background: #f4f7fb;
+}
+
+.shell-layout {
+  max-width: 1080px;
+  margin: 0 auto;
+  padding: 24px;
+}
+
+.shell-header {
+  margin-bottom: 20px;
+}
+
+.shell-header h1 {
+  margin: 0;
+}
+
+.shell-header p {
+  margin: 8px 0 16px;
+  color: #495264;
+}
+
+nav {
+  display: flex;
+  gap: 12px;
+}
+
+nav a {
+  text-decoration: none;
+  color: #1d3f72;
+  padding: 10px 14px;
+  border: 1px solid #d0d7e2;
+  border-radius: 8px;
+  background: #fff;
+}
+
+nav a.active {
+  background: #1d3f72;
+  color: #fff;
+  border-color: #1d3f72;
+}
+
+.shell-content {
+  border: 1px solid #d0d7e2;
+  border-radius: 10px;
+  background: #fff;
+  padding: 20px;
+}

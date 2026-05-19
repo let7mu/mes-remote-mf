@@ -1,0 +1,92 @@
+name: Deploy host-shell & local-micro → Netlify
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'projects/host-shell/**'
+      - 'projects/local-micro/**'
+      - '.github/workflows/deploy-netlify.yml'
+  pull_request:
+    branches:
+      - main
+    paths:
+      - 'projects/host-shell/**'
+      - 'projects/local-micro/**'
+
+jobs:
+  # ── Host Shell ─────────────────────────────────────────────────────────────
+  deploy-host:
+    runs-on: ubuntu-latest
+    name: Deploy host-shell
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build host-shell
+        run: npm run build:host
+
+      # Netlify SPA fallback: all unknown routes → index.html
+      - name: Add _redirects for SPA routing
+        run: echo "/* /index.html 200" > dist/host-shell/browser/_redirects
+
+      - name: Deploy host-shell to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: dist/host-shell/browser
+          production-branch: main
+          production-deploy: ${{ github.ref == 'refs/heads/main' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "host-shell @ ${{ github.sha }}"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_HOST }}
+
+  # ── Local Micro ────────────────────────────────────────────────────────────
+  deploy-local-micro:
+    runs-on: ubuntu-latest
+    name: Deploy local-micro
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+          cache: 'npm'
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build local-micro
+        run: npm run build:local-micro
+
+      - name: Add _redirects for SPA routing
+        run: echo "/* /index.html 200" > dist/local-micro/browser/_redirects
+
+      - name: Deploy local-micro to Netlify
+        uses: nwtgck/actions-netlify@v3.0
+        with:
+          publish-dir: dist/local-micro/browser
+          production-branch: main
+          production-deploy: ${{ github.ref == 'refs/heads/main' }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          deploy-message: "local-micro @ ${{ github.sha }}"
+          enable-pull-request-comment: true
+          enable-commit-comment: true
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID_LOCAL_MICRO }}
